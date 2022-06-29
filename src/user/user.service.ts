@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
-import { AuthService } from '../../src/auth/auth.service';
 import { UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService, private config: ConfigService, private authService: AuthService) {}
+  constructor(private prisma: PrismaService, private config: ConfigService) {}
 
   async updateUser(userId: number, dto: UpdateUserDto) {
     const user = await this.prisma.user.update({
@@ -20,6 +19,6 @@ export class UserService {
 
     delete user.hash;
 
-    return user;
+    return { ok: true, user };
   }
 }
